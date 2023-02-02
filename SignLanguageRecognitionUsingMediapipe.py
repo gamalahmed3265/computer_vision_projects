@@ -18,7 +18,26 @@ cap.set(4,hCam)
 font=cv.FONT_HERSHEY_PLAIN
 
 def SignLanguageRecognitionUsingMediapipe(image,lst):
-    print(lst)
+    fingerTips=[8,12,16,20]
+    thumb=4
+    
+    # [8, 395, 584]
+    # [12, 344, 609]
+    # [16, 286, 630]
+    # [20, 221, 648]
+    
+    for fin in fingerTips:
+        # print(lst[fin])
+        cv.circle(image,(lst[fin][1],lst[fin][2]),15,(255,0,0),cv.FILLED)
+
+        #   8           5
+        if lst[fin][1] < lst[fin-3][1]:
+            # cv.circle(image,(lst[fin][1],lst[fin][2]),15,(0,0,255),cv.FILLED)
+            cv.putText(image,"Dislike",(40,100),font,2,(255,0,0),3)
+        else:
+            cv.putText(image,"like",(40,100),font,2,(255,0,0),3)
+
+
 def main():
     font=cv.FONT_HERSHEY_PLAIN
     pTime=0
@@ -33,7 +52,6 @@ def main():
             
             if len(lmList) != 0:
                 SignLanguageRecognitionUsingMediapipe(frame,lmList)
-                
             
             cTime=time.time()
             fbs=1/(cTime-pTime)
